@@ -98,7 +98,6 @@ struct FileContentView: View {
     }
     
     private var contentView: some View {
-        let fileExtension = URL(fileURLWithPath: file.path).pathExtension.lowercased()
         let fileType = viewModel.detectFileType(for: file.path)
         
         if isAudioFile(path: file.path) {
@@ -1411,7 +1410,7 @@ extension SystemFileManagerModel {
     }
     
     func syntaxHighlightHTML(html: String) -> AttributedString {
-        var attributedString = AttributedString(html)
+        let attributedString = AttributedString(html)
         //TODO: maybe some syntax highlighting shit?
         return attributedString
     }

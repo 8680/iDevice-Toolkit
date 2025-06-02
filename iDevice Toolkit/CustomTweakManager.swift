@@ -63,19 +63,14 @@ class CustomTweakManager: ObservableObject {
     }
     
     func addCustomTweak(_ tweak: TweakPathForFile) -> Bool {
-        do {
-            if customTweaks.contains(where: { $0.name == tweak.name }) {
-                return false
-            }
-            
-            customTweaks.append(tweak)
-            saveCustomTweaks()
-            iDeviceLogger("[+] Added new custom tweak: \(tweak.name)")
-            return true
-        } catch {
-            iDeviceLogger("[!] Error adding custom tweak: \(error.localizedDescription)")
+        if customTweaks.contains(where: { $0.name == tweak.name }) {
             return false
         }
+        
+        customTweaks.append(tweak)
+        saveCustomTweaks()
+        iDeviceLogger("[+] Added new custom tweak: \(tweak.name)")
+        return true
     }
 
     func removeTweak(withID id: String) {
@@ -108,45 +103,41 @@ class CustomTweakManager: ObservableObject {
         }
     
     func importTweak(from url: URL) -> Bool {
+        let tempDir = FileManager.default.temporaryDirectory
+        let tempURL = tempDir.appendingPathComponent(UUID().uuidString + ".json")
+        
         do {
-            let tempDir = FileManager.default.temporaryDirectory
-            let tempURL = tempDir.appendingPathComponent(UUID().uuidString + ".json")
+            let data = try Data(contentsOf: url)
+            try data.write(to: tempURL)
             
-            do {
-                let data = try Data(contentsOf: url)
-                try data.write(to: tempURL)
-                
-                let decoder = JSONDecoder()
-                let tweak = try decoder.decode(TweakPathForFile.self, from: data)
-                
-                if let existingIndex = customTweaks.firstIndex(where: { $0.name == tweak.name }) {
-                    var newName = tweak.name
-                    var counter = 1
-                    while customTweaks.contains(where: { $0.name == newName }) {
-                        newName = "\(tweak.name) (\(counter))"
-                        counter += 1
-                    }
-                    
-                    var uniqueTweak = tweak
-                    uniqueTweak.name = newName
-                    customTweaks.append(uniqueTweak)
-                } else {
-                    customTweaks.append(tweak)
+            let decoder = JSONDecoder()
+            let tweak = try decoder.decode(TweakPathForFile.self, from: data)
+            
+            if customTweaks.contains(where: { $0.name == tweak.name }) {
+                var newName = tweak.name
+                var counter = 1
+                while customTweaks.contains(where: { $0.name == newName }) {
+                    newName = "\(tweak.name) (\(counter))"
+                    counter += 1
                 }
                 
-                saveCustomTweaks()
-                iDeviceLogger("[+] Successfully imported tweak: \(tweak.name)")
-                
-                try? FileManager.default.removeItem(at: tempURL)
-                
-                return true
-            } catch {
-                iDeviceLogger("[!] Error reading file: \(error.localizedDescription)")
-                return false
+                var uniqueTweak = tweak
+                uniqueTweak.name = newName
+                customTweaks.append(uniqueTweak)
+            } else {
+                customTweaks.append(tweak)
             }
+            
+            saveCustomTweaks()
+            iDeviceLogger("[+] Successfully imported tweak: \(tweak.name)")
+            
+            try? FileManager.default.removeItem(at: tempURL)
+            
+            return true
         } catch {
-            print("[!] Failed to import tweak: \(error.localizedDescription)")
-            iDeviceLogger("[!] Error importing tweak: \(error.localizedDescription)")
+            iDeviceLogger("[!] Error reading or processing file for import: \(error.localizedDescription)")
+            // Attempt to clean up temp file even if import fails
+            try? FileManager.default.removeItem(at: tempURL)
             return false
         }
     }
