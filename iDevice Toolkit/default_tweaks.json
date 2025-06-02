@@ -6,7 +6,9 @@
       "/System/Library/PrivateFrameworks/CoreMaterial.framework/dockDark.materialrecipe",
       "/System/Library/PrivateFrameworks/CoreMaterial.framework/dockLight.materialrecipe"
     ],
-    "description": "Completely remove the dock background from your home screen. Tweak by @Skadz108.",
+    "description": "完全移除主屏幕上的程序坞背景。调整由 @Skadz108 提供。",
+"description_zh": "完全移除主屏幕上的程序坞背景。调整由 @Skadz108 提供。",
+"name_zh": "隐藏程序坞",
     "category": "Aesthetics"
   },
   {
@@ -15,7 +17,9 @@
     "paths": [
       "/System/Library/PrivateFrameworks/MaterialKit.framework/Assets.car"
     ],
-    "description": "Remove the bottom home indicator bar. Tweak by @Skadz108.",
+    "description": "移除底部的 Home 指示条。调整由 @Skadz108 提供。",
+"description_zh": "移除底部的 Home 指示条。调整由 @Skadz108 提供。",
+"name_zh": "隐藏 Home 指示条",
     "category": "Aesthetics"
   },
   {
@@ -25,7 +29,9 @@
       "/System/Library/PrivateFrameworks/SpringBoardHome.framework/folderDark.materialrecipe",
       "/System/Library/PrivateFrameworks/SpringBoardHome.framework/folderLight.materialrecipe"
     ],
-    "description": "Make app folders completely transparent. Tweak by @Skadz108.",
+    "description": "使应用文件夹完全透明。调整由 @Skadz108 提供。",
+"description_zh": "使应用文件夹完全透明。调整由 @Skadz108 提供。",
+"name_zh": "隐藏文件夹背景",
     "category": "Aesthetics"
   },
   {
@@ -34,7 +40,9 @@
     "paths": [
       "/System/Library/PrivateFrameworks/CoverSheet.framework/dashBoardPasscodeBackground.materialrecipe"
     ],
-    "description": "Remove the passcode entry background on the lock screen",
+    "description": "移除锁定屏幕上的密码输入背景。",
+"description_zh": "移除锁定屏幕上的密码输入背景。",
+"name_zh": "隐藏解锁背景",
     "category": "Aesthetics"
   },
   {
@@ -44,7 +52,9 @@
       "/System/Library/PrivateFrameworks/ChatKit.framework/bubbleDark.materialrecipe",
       "/System/Library/PrivateFrameworks/ChatKit.framework/bubbleLight.materialrecipe"
     ],
-    "description": "Simplify the look of chat bubbles in Messages",
+    "description": "简化信息中聊天气泡的外观。",
+"description_zh": "简化信息中聊天气泡的外观。",
+"name_zh": "简洁信息气泡",
     "category": "Experimental"
   },
   {
@@ -58,7 +68,9 @@
       "/System/Library/PrivateFrameworks/SpringBoardHome.framework/folderDark.materialrecipe",
       "/System/Library/PrivateFrameworks/CoreMaterial.framework/platters.materialrecipe"
     ],
-    "description": "Transparent Media Player & Notifications. Tweak by @straight_tamago / mdc0",
+    "description": "透明媒体播放器和通知。调整由 @straight_tamago / mdc0 提供。",
+"description_zh": "透明媒体播放器和通知。调整由 @straight_tamago / mdc0 提供。",
+"name_zh": "透明播放器和通知",
     "category": "Aesthetics"
   },
   {
@@ -74,7 +86,9 @@
       "/System/Library/Fonts/CoreUI/SFUIRounded.ttf",
       "/System/Library/Fonts/CoreUI/SFUISoft.ttf"
     ],
-    "description": "Completely switch the UI to the Helvetica font. Tweak by GeoSn0w. I've seen the idea in the jailbreak.party discord.",
+    "description": "将用户界面完全切换到 Helvetica 字体。调整由 GeoSn0w 提供。我在 jailbreak.party discord 中看到了这个想法。",
+"description_zh": "将用户界面完全切换到 Helvetica 字体。调整由 GeoSn0w 提供。我在 jailbreak.party discord 中看到了这个想法。",
+"name_zh": "切换到 Helvetica 字体",
     "category": "Aesthetics"
   },
   {
@@ -83,7 +97,9 @@
     "paths": [
       "/System/Library/Fonts/CoreAddition/AppleColorEmoji-160px.ttc"
     ],
-    "description": "Completely disable all emojis. Tweak by GeoSn0w.",
+    "description": "完全禁用所有表情符号。调整由 GeoSn0w 提供。",
+"description_zh": "完全禁用所有表情符号。调整由 GeoSn0w 提供。",
+"name_zh": "完全禁用表情符号",
     "category": "Aesthetics"
   },
   {
@@ -97,7 +113,9 @@
               "/System/Library/Audio/UISounds/Modern/camera_shutter_burst_begin.caf",
               "/System/Library/Audio/UISounds/Modern/camera_shutter_burst_end.caf"
       ],
-    "description": "Disables camera shutter sound. Killing the Camera app may re-enable it. Tweak by @straight_tamago",
+    "description": "禁用相机快门声。关闭相机应用可能会重新启用它。调整由 @straight_tamago 提供。",
+"description_zh": "禁用相机快门声。关闭相机应用可能会重新启用它。调整由 @straight_tamago 提供。",
+"name_zh": "关闭相机快门声",
     "category": "Privacy"
   },
   {
@@ -106,7 +124,9 @@
     "paths": [
        "/usr/lib/dyld"
       ],
-    "description": "Force reboot iOS by inducing a panic for funziez. Tweak by @skadz108",
+    "description": "通过引发内核崩溃来强制重启 iOS，仅供娱乐。调整由 @skadz108 提供。",
+"description_zh": "通过引发内核崩溃来强制重启 iOS，仅供娱乐。调整由 @skadz108 提供。",
+"name_zh": "强制重启 iOS",
     "category": "Experimental"
   }
 ]

@@ -1,0 +1,63 @@
+name: Create Release
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+        
+    - name: Install dependencies
+      run: |
+        xcodebuild -resolvePackageDependencies
+        
+    - name: Get version from CoreAppService/currentVer.json
+      id: get_version
+      run: |
+        VERSION=$(cat CoreAppService/currentVer.json | grep -o '"latestVersion":"[^"]*"' | cut -d '"' -f 4)
+        echo "Current version: $VERSION"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        
+    - name: Build app
+      run: |
+        xcodebuild clean archive -project "iDevice Toolkit.xcodeproj" -scheme "iDevice Toolkit" -destination "generic/platform=iOS" -archivePath "./build/iDeviceToolkit.xcarchive" CODE_SIGNING_ALLOWED=NO
+        
+    - name: Create IPA
+      run: |
+        mkdir -p Payload
+        cp -r "./build/iDeviceToolkit.xcarchive/Products/Applications/iDevice Toolkit.app" Payload/
+        zip -r "iDeviceToolkit-${{ steps.get_version.outputs.version }}.ipa" Payload
+        rm -rf Payload
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ steps.get_version.outputs.version }}
+        release_name: Release v${{ steps.get_version.outputs.version }}
+        draft: false
+        prerelease: false
+        
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./iDeviceToolkit-${{ steps.get_version.outputs.version }}.ipa
+        asset_name: iDeviceToolkit-${{ steps.get_version.outputs.version }}.ipa
+        asset_content_type: application/octet-stream

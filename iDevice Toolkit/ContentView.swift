@@ -5,24 +5,40 @@ import UIKit
 import UniformTypeIdentifiers
 
 struct TweakPathForFile: Identifiable, Codable {
-    var id: String { name }
+    var id: String { name } // Consider if ID should be stable if name changes due to localization
     var icon: String
     var name: String
     var paths: [String]
     var description: String
     var category: TweakCategory
     
+    // Optional localized fields, not directly exposed but used in init
+    private var name_zh: String?
+    private var description_zh: String?
+    
     enum CodingKeys: String, CodingKey {
-        case icon, name, paths, description, category
+        case icon, name, paths, description, category, name_zh, description_zh
     }
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         icon = try container.decode(String.self, forKey: .icon)
-        name = try container.decode(String.self, forKey: .name)
+        let defaultName = try container.decode(String.self, forKey: .name)
+        let defaultDescription = try container.decode(String.self, forKey: .description)
         paths = try container.decode([String].self, forKey: .paths)
-        description = try container.decode(String.self, forKey: .description)
+        
+        name_zh = try container.decodeIfPresent(String.self, forKey: .name_zh)
+        description_zh = try container.decodeIfPresent(String.self, forKey: .description_zh)
+        
+        let preferredLanguage = Locale.preferredLanguages.first ?? "en"
+        if preferredLanguage.starts(with: "zh") {
+            name = name_zh ?? defaultName
+            description = description_zh ?? defaultDescription
+        } else {
+            name = defaultName
+            description = defaultDescription
+        }
         
         let categoryString = try container.decode(String.self, forKey: .category)
         if let decodedCategory = TweakCategory(rawValue: categoryString) {
@@ -49,6 +65,21 @@ enum TweakCategory: String, Codable, CaseIterable {
     case privacy = "Privacy"
     case experimental = "Experimental"
     case custom = "Custom Tweaks"
+    
+    var localizedName: String {
+        switch self {
+        case .aesthetics:
+            return NSLocalizedString("Aesthetics", comment: "Aesthetics category")
+        case .performance:
+            return NSLocalizedString("Performance", comment: "Performance category")
+        case .privacy:
+            return NSLocalizedString("Privacy", comment: "Privacy category")
+        case .experimental:
+            return NSLocalizedString("Experimental", comment: "Experimental category")
+        case .custom:
+            return NSLocalizedString("Custom Tweaks", comment: "Custom Tweaks category")
+        }
+    }
 }
 
 // Helper extensions
@@ -118,7 +149,7 @@ struct CustomTweaksCategoryButton: View {
                     .foregroundColor(ToolkitColors.green)
                     .frame(width: 26)
                 
-                Text("Create Custom Tweak")
+                Text(NSLocalizedString("Create Custom Tweak", comment: "Create Custom Tweak button"))
                     .font(.system(size: 16, weight: .semibold))
                 
                 Spacer()

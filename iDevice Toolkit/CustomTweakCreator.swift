@@ -89,41 +89,41 @@ var body: some View {
         .preferredColorScheme(.dark)
         .alert(isPresented: $showSuccessAlert) {
             Alert(
-                title: Text("Success"),
+                title: Text(NSLocalizedString("Success", comment: "Success alert title")),
                 message: Text(successMessage),
-                dismissButton: .default(Text("OK")) {
+                dismissButton: .default(Text(NSLocalizedString("OK", comment: "OK button"))) {
                     presentationMode.wrappedValue.dismiss()
                 }
             )
         }
-        .alert("Error", isPresented: $showErrorAlert) {
-            Button("OK", role: .cancel) { }
+        .alert(NSLocalizedString("Error", comment: "Error alert title"), isPresented: $showErrorAlert) {
+            Button(NSLocalizedString("OK", comment: "OK button"), role: .cancel) { }
         } message: {
             Text(errorMessage)
         }
-        .alert("Export Error", isPresented: $showExportErrorAlert) {
-            Button("OK", role: .cancel) { }
+        .alert(NSLocalizedString("Export Error", comment: "Export Error alert title"), isPresented: $showExportErrorAlert) {
+            Button(NSLocalizedString("OK", comment: "OK button"), role: .cancel) { }
         } message: {
             Text(exportErrorMessage)
         }
-        .alert("Enter Folder Path", isPresented: $showFolderPathInputAlert) {
-            TextField("Path", text: $folderPathInput)
+        .alert(NSLocalizedString("Enter Folder Path", comment: "Enter Folder Path alert title"), isPresented: $showFolderPathInputAlert) {
+            TextField(NSLocalizedString("Path", comment: "Path textfield placeholder"), text: $folderPathInput)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
                 .foregroundColor(.black)
             
-            Button("Cancel", role: .cancel) {
+            Button(NSLocalizedString("Cancel", comment: "Cancel button"), role: .cancel) {
                 folderPathInput = ""
             }
             
-            Button("Scan") {
+            Button(NSLocalizedString("Scan", comment: "Scan button")) {
                 if !folderPathInput.isEmpty {
                     scanFilesInDirectory(folderPathInput)
                 }
                 folderPathInput = ""
             }
         } message: {
-            Text("Enter the folder path to scan for files")
+            Text(NSLocalizedString("Enter the folder path to scan for files", comment: "Enter folder path alert message"))
         }
         .sheet(isPresented: $showIconPicker) {
             iconPickerView

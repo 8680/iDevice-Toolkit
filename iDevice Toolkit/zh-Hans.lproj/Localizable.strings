@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  iDevice Toolkit
+
+  Created by AI Assistant.
+*/
+
+"Aesthetics" = "美化";
+"Performance" = "性能";
+"Privacy" = "隐私";
+"Experimental" = "实验性";
+"Custom Tweaks" = "自定义调整";
+"Create Custom Tweak" = "创建自定义调整";
+"Success" = "成功";
+"OK" = "确定";
+"Error" = "错误";
+"Export Error" = "导出错误";
+"Enter Folder Path" = "输入文件夹路径";
+"Path" = "路径";
+"Cancel" = "取消";
+"Scan" = "扫描";
+"Enter the folder path to scan for files" = "输入要扫描文件的文件夹路径";
+"Critical Update Available" = "重要更新可用";
+"Update Available" = "更新可用";
+"Current Version" = "当前版本";
+"New Version" = "新版本";
+"What's New" = "更新内容";

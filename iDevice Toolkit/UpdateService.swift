@@ -24,7 +24,7 @@ class UpdateService: ObservableObject {
     static let shared = UpdateService()
     
     private let updateURL = "https://raw.githubusercontent.com/GeoSn0w/iDevice-Toolkit/refs/heads/main/CoreAppService/currentVer.json"
-    public let currentVersion = "1.5.0"
+    public let currentVersion = "1.7.0"
     
     @Published var isCheckingForUpdates = false
     @Published var updateAvailable: AppUpdate? = nil
@@ -127,7 +127,7 @@ struct UpdateAlertView: View {
                             .font(.system(size: 20))
                             .foregroundColor(update.criticalUpdate ? Color.red : ToolkitColors.accent)
                         
-                        Text(update.criticalUpdate ? "Critical Update Available" : "Update Available")
+                        Text(update.criticalUpdate ? NSLocalizedString("Critical Update Available", comment: "Critical Update Available title") : NSLocalizedString("Update Available", comment: "Update Available title"))
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                         
@@ -153,7 +153,7 @@ struct UpdateAlertView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             HStack(spacing: 16) {
                                 VStack(alignment: .leading, spacing: 8) {
-                                    Text("Current Version")
+                                    Text(NSLocalizedString("Current Version", comment: "Current Version label"))
                                         .font(.system(size: 14))
                                         .foregroundColor(.gray)
                                     Text(updateService.currentVersion)
@@ -170,7 +170,7 @@ struct UpdateAlertView: View {
                                 Spacer()
                                 
                                 VStack(alignment: .trailing, spacing: 8) {
-                                    Text("New Version")
+                                    Text(NSLocalizedString("New Version", comment: "New Version label"))
                                         .font(.system(size: 14))
                                         .foregroundColor(.gray)
                                     Text(update.latestVersion)
@@ -190,7 +190,7 @@ struct UpdateAlertView: View {
                                     }
                                 }) {
                                     HStack {
-                                        Text("What's New")
+                                        Text(NSLocalizedString("What's New", comment: "What's New button"))
                                             .font(.system(size: 15, weight: .semibold))
                                             .foregroundColor(.white)
                                         

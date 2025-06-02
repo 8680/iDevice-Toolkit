@@ -46,9 +46,38 @@ class TweaksService {
             .tryMap { data in
                 do {
                     let decoder = JSONDecoder()
-                    let tweaks = try decoder.decode([TweakPathForFile].self, from: data)
+                    var tweaks = try decoder.decode([TweakPathForFile].self, from: data)
+                    let preferredLanguage = Locale.preferredLanguages.first ?? "en"
+                    if preferredLanguage.starts(with: "zh") {
+                        tweaks = tweaks.map {
+                            var tweak = $0
+                            if let nameZh = try? container.decodeIfPresent(String.self, forKey: .nameZh) {
+                                tweak.name = nameZh
+                            }
+                            if let descriptionZh = try? container.decodeIfPresent(String.self, forKey: .descriptionZh) {
+                                tweak.description = descriptionZh
+                            }
+                            return tweak
+                        }
+                    }
                     print("[+] Successfully fetched tweaks from GitHub")
-                    return tweaks
+                    let preferredLanguage = Locale.preferredLanguages.first ?? "en"
+        if preferredLanguage.starts(with: "zh") {
+            return tweaks.map {
+                var tweak = $0
+                // This assumes your TweakPathForFile struct and JSON have name_zh and description_zh fields
+                // You'll need to adjust the decoding logic if these fields are optional or named differently
+                // For simplicity, direct assignment is shown here, error handling might be needed
+                if let nameZh = (try? JSONDecoder().decode([String: String].self, from: jsonData))?["name_zh"] {
+                    tweak.name = nameZh
+                }
+                if let descriptionZh = (try? JSONDecoder().decode([String: String].self, from: jsonData))?["description_zh"] {
+                    tweak.description = descriptionZh
+                }
+                return tweak
+            }
+        }
+        return tweaks
                 } catch {
                     print("[!] Tweaks JSON decoding error: \(error.localizedDescription)")
                     throw error
@@ -80,9 +109,25 @@ class TweaksService {
 struct DefaultTweaks {
     static let tweaks: [TweakPathForFile] = {
         guard let jsonData = defaultTweaksJSON.data(using: .utf8),
-              let tweaks = try? JSONDecoder().decode([TweakPathForFile].self, from: jsonData) else {
+              var tweaks = try? JSONDecoder().decode([TweakPathForFile].self, from: jsonData) else {
             print("[!] Failed to parse hardcoded tweaks JSON")
             return []
+        }
+        let preferredLanguage = Locale.preferredLanguages.first ?? "en"
+        if preferredLanguage.starts(with: "zh") {
+            return tweaks.map {
+                var tweak = $0
+                // This assumes your TweakPathForFile struct and JSON have name_zh and description_zh fields
+                // You'll need to adjust the decoding logic if these fields are optional or named differently
+                // For simplicity, direct assignment is shown here, error handling might be needed
+                if let nameZh = (try? JSONDecoder().decode([String: String].self, from: jsonData))?["name_zh"] {
+                    tweak.name = nameZh
+                }
+                if let descriptionZh = (try? JSONDecoder().decode([String: String].self, from: jsonData))?["description_zh"] {
+                    tweak.description = descriptionZh
+                }
+                return tweak
+            }
         }
         return tweaks
     }()
